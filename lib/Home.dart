@@ -11,9 +11,11 @@ class _HomeState extends State<Home> {
 
   TextEditingController _controllerTextField = TextEditingController();
 
-
-
   // Fim Controlador
+
+
+  // Início das Funções dos Botões
+
 
   _salvar() {
 
@@ -27,6 +29,7 @@ class _HomeState extends State<Home> {
 
   }
 
+  // Fim das Funções dos Botões
 
   @override
   Widget build(BuildContext context) {
