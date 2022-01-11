@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,27 +9,28 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   // Início Controlador
-
+  String _textoSalvo = 'Informação';
   TextEditingController _controllerTextField = TextEditingController();
 
   // Fim Controlador
 
 
   // Início das Funções dos Botões
-
-
-  _salvar() {
-
+  _salvar() async {
+    String _valorDigitado = _controllerTextField.text;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('nome', _valorDigitado);
   }
-
-  _recuperar(){
-
+  _recuperar() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _textoSalvo = prefs.getString('nome') ?? 'Sem Informação';
+    });
   }
-
-  _remover(){
-
+  _remover() async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('nome');
   }
-
   // Fim das Funções dos Botões
 
   @override
@@ -43,9 +45,7 @@ class _HomeState extends State<Home> {
         padding: EdgeInsets.all(32),
         child: Column(
           children: [
-           const Text(
-              'Nada Salvo'
-            ),
+            Text( _textoSalvo ),
             TextField(
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
@@ -55,27 +55,30 @@ class _HomeState extends State<Home> {
             Row(
               children: [
                 ElevatedButton(
-                  child: const Text(
+                  child:  Text(
                       "Salvar",
                       style: TextStyle(
-                          fontSize: 20
+                          fontSize: 16,
+                          fontFamily: 'verdana'
                       )
                   ),
                   onPressed: _salvar,
                 ),ElevatedButton(
-                  child: const Text(
-                      "Salvar",
+                  child:  Text(
+                      "Recuperar",
                       style: TextStyle(
-                          fontSize: 20
+                          fontSize: 16,
+                          fontFamily: 'verdana'
                       )
                   ),
                   onPressed: _recuperar,
                 ),
                 ElevatedButton(
-                  child: const Text(
+                  child:  Text(
                       "Remover",
                       style: TextStyle(
-                          fontSize: 20
+                          fontSize: 16,
+                          fontFamily: 'verdana'
                       )
                   ),
                   onPressed: _remover,
